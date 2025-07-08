@@ -7,7 +7,7 @@
     <style>
         /* 添加样式确保重定向前页面美观 */
         body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: #000;
             color: white;
             font-family: 'Inter', sans-serif;
             display: flex;
@@ -83,42 +83,45 @@
     </style>
 </head>
 <body>
+<canvas id="code-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;"></canvas>
 <script>
-    (function() {
-        var path = window.location.pathname.toLowerCase();
-        if (path.startsWith('/rulexcel')) {
-            document.body.innerHTML = '<iframe src="https://kw-96.github.io/RuleXcel/" style="position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;margin:0;padding:0;z-index:9999;" allowfullscreen></iframe>';
-            document.body.style.background = '#fff';
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
-            return;
+(function() {
+    // 配置
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=<>?[]{}|';
+    const fontSize = 22;
+    let columns, drops, canvas, ctx, width, height;
+    function resize() {
+        canvas.width = width = window.innerWidth;
+        canvas.height = height = window.innerHeight;
+        columns = Math.floor(width / fontSize);
+        drops = Array(columns).fill(0).map(() => Math.random() * height / fontSize);
+    }
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.18)';
+        ctx.fillRect(0, 0, width, height);
+        for (let i = 0; i < columns; i++) {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillStyle = `hsl(${Math.floor(Math.random()*360)}, 80%, 60%)`;
+            ctx.font = fontSize + 'px monospace';
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (Math.random() > 0.975 || drops[i] * fontSize > height) {
+                drops[i] = 0;
+            }
+            drops[i]++;
         }
-        if (path.startsWith('/pybegin')) {
-            window.location.replace('https://kw-96.github.io/PyBegin/' + window.location.pathname.slice(8));
-            return;
-        }
-    })();
+        requestAnimationFrame(draw);
+    }
+    canvas = document.getElementById('code-bg');
+    ctx = canvas.getContext('2d');
+    resize();
+    window.addEventListener('resize', resize);
+    draw();
+})();
 </script>
-    <div class="loader"></div>
-    <h1>设计云平台</h1>
-    <p>正在重定向到请求的资源...</p>
-    
-    <div class="projects">
-        <div class="project-card">
-            <h3>课程</h3>
-            <p>PyBegin 学习平台</p>
-            <a href="/PyBegin" style="color: #a3d9ff;">访问项目</a>
-        </div>
-        <div class="project-card">
-            <h3>数据处理</h3>
-            <p>RuleXcel 在线数据处理工具</p>
-            <a href="/PyBegin" style="color: #a3d9ff;">访问项目</a>
-        </div>
-        <div class="project-card">
-            <h3>设计</h3>
-            <p>个人设计作品集</p>
-            <a href="/DesignDocs" style="color: #a3d9ff;">访问项目</a>
-        </div>
-    </div>
+<div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;color:#fff;text-shadow:0 2px 8px #000;font-size:2.2rem;">
+    <div style="font-size:4rem;font-weight:bold;">404</div>
+    <div style="margin-top:1rem;">未找到页面</div>
+    <div style="font-size:1rem;margin-top:0.5rem;opacity:0.7;">你访问的内容不存在或已被移除</div>
+</div>
 </body>
 </html>
