@@ -54,9 +54,48 @@
         .project-card h3 {
             margin-top: 0;
         }
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .projects {
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+                align-items: center;
+            }
+            .project-card {
+                width: 90vw;
+                min-width: 0;
+                padding: 14px;
+                font-size: 1rem;
+            }
+            .loader {
+                width: 36px;
+                height: 36px;
+                border-width: 3px;
+            }
+        }
     </style>
 </head>
 <body>
+<script>
+    (function() {
+        var path = window.location.pathname.toLowerCase();
+        if (path.startsWith('/rulexcel')) {
+            window.location.replace('https://kw-96.github.io/RuleXcel/' + window.location.pathname.slice(9));
+            return;
+        }
+        if (path.startsWith('/pybegin')) {
+            window.location.replace('https://kw-96.github.io/PyBegin/' + window.location.pathname.slice(8));
+            return;
+        }
+    })();
+</script>
     <div class="loader"></div>
     <h1>设计云平台</h1>
     <p>正在重定向到请求的资源...</p>
@@ -78,38 +117,5 @@
             <a href="/DesignDocs" style="color: #a3d9ff;">访问项目</a>
         </div>
     </div>
-
-    <script>
-        // 获取当前路径
-        const path = window.location.pathname;
-        
-        // 路径路由映射
-        const routeMap = {
-            '/pybegin': 'https://kw-96.github.io/PyBegin/',
-            '/rulexcel': 'https://kw-96.github.io/RuleXcel/',
-            '/design': 'https://kw-96.github.io/DesignDocs/'
-        };
-        
-        // 检查是否匹配已知路径
-        const matchedPath = Object.keys(routeMap).find(key => 
-            path.toLowerCase().startsWith(key)
-        );
-        
-        if (matchedPath) {
-            // 添加平滑过渡效果
-            document.body.style.opacity = 0.8;
-            document.body.style.transition = 'opacity 0.5s ease';
-            
-            setTimeout(() => {
-                window.location.href = routeMap[matchedPath] + 
-                                      path.slice(matchedPath.length);
-            }, 800);
-        } else if (path !== '/') {
-            // 未知路径处理
-            setTimeout(() => {
-                window.location.href = 'https://kw-96.github.io/DesignHub/404.html';
-            }, 1500);
-        }
-    </script>
 </body>
 </html>
