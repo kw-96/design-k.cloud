@@ -109,7 +109,10 @@
         (function() {
             var path = window.location.pathname.toLowerCase();
             if (path.startsWith('/rulexcel')) {
-                window.location.replace('https://kw-96.github.io/RuleXcel/' + window.location.pathname.slice(9));
+                document.body.innerHTML = '<iframe src="https://kw-96.github.io/RuleXcel/" style="position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;margin:0;padding:0;z-index:9999;" allowfullscreen></iframe>';
+                document.body.style.background = '#fff';
+                document.body.style.overflow = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
                 return;
             }
             if (path.startsWith('/pybegin')) {
