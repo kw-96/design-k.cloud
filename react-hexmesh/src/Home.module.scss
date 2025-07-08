@@ -1,0 +1,129 @@
+.home {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  margin: 48px auto 0 auto;
+  width: 100%;
+  max-width: 700px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none; // 让内容区域鼠标穿透
+}
+
+.home h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  margin-top: -1.2em;
+  letter-spacing: 0.02em;
+}
+
+.home a {
+  pointer-events: auto; // 链接可点击
+}
+
+.homeBg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 18px;
+  background: rgba(10, 10, 10, 0.3);
+  backdrop-filter: blur(3.2rem);
+  -webkit-backdrop-filter: blur(3.2rem);
+  /* 多段径向渐变，让中心也有透明度 */
+  mask-image: radial-gradient(
+    circle,
+    rgba(0,0,0,0.6) 0%,
+    rgba(0,0,0,0.4) 30%,
+    rgba(0,0,0,0.15) 60%,
+    transparent 85%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle,
+    rgba(0,0,0,0.6) 0%,
+    rgba(0,0,0,0.4) 30%,
+    rgba(0,0,0,0.15) 60%,
+    transparent 85%
+  );
+  pointer-events: none;
+}
+
+.home > *:not(.homeBg) {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.projects {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.projectCard {
+  background: hsla(220, 90%, 50%, 0.8);
+  border-radius: 10px;
+  padding: 20px 100px 0px 100px;
+  width: 100%;
+  height: 150px;
+  transition: transform 0.3s;
+  margin-top: 180px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18), 0 1.5px 6px 0 rgba(0,0,0,0.12);
+}
+.projectCard:hover {
+  transform: translateY(-5px);
+  background: hsla(220, 90%, 50%, 1);
+}
+.projectCard h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  width: 100px;
+}
+
+@media (max-width: 600px) {
+  .home {
+    font-size: 16px;
+    padding: 10px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .projects {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    align-items: center;
+  }
+  .projectCard {
+    width: 90vw;
+    min-width: 0;
+    padding: 14px;
+    font-size: 1rem;
+  }
+  .loader {
+    width: 36px;
+    height: 36px;
+    border-width: 3px;
+  }
+} 

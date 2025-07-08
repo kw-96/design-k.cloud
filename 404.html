@@ -80,44 +80,83 @@
                 border-width: 3px;
             }
         }
+        .hex-mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            overflow: hidden;
+            font-size: 0;
+            cursor: pointer;
+            --xPos: 50vw;
+            --yPos: 50vh;
+        }
+        .hex-mesh-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, #f44336, #ff9800, #ffe607, #09d7c4, #1cbed3, #1d8ae2, #bc24d6);
+            z-index: 1;
+            mix-blend-mode: darken;
+            animation: change 8s infinite linear;
+            mask: radial-gradient(circle at var(--xPos) var(--yPos), #000 0, #000 50px, transparent 150px, transparent 150px);
+            pointer-events: none;
+        }
+        .hex-mesh-bg .item {
+            width: 50px;
+            height: 57.735px;
+            background: #000;
+            flex: 0 0 auto;
+            clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+            margin: 1px;
+            margin-bottom: -13.425px;
+            display: inline-block;
+            z-index: 2;
+        }
+        @keyframes change {
+            100% { filter: hue-rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-<canvas id="code-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;"></canvas>
-<script>
+<div class="hex-mesh-bg"></div>
+    <script>
 (function() {
-    // 配置
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=<>?[]{}|';
-    const fontSize = 22;
-    let columns, drops, canvas, ctx, width, height;
-    function resize() {
-        canvas.width = width = window.innerWidth;
-        canvas.height = height = window.innerHeight;
-        columns = Math.floor(width / fontSize);
-        drops = Array(columns).fill(0).map(() => Math.random() * height / fontSize);
+    const container = document.querySelector('.hex-mesh-bg');
+    const itemWidth = 50;
+    const margin = 1;
+    const itemHeight = itemWidth * 1.1547;
+    const perHeight = 1.732 * itemWidth + 4 * margin - 1;
+    const total = 800;
+    // 动态生成六边形格子
+    for (let i = 0; i < total; i++) {
+        const div = document.createElement('div');
+        div.className = 'item';
+        container.appendChild(div);
     }
-    function draw() {
-        ctx.fillStyle = 'rgba(0,0,0,0.18)';
-        ctx.fillRect(0, 0, width, height);
-        for (let i = 0; i < columns; i++) {
-            const text = chars[Math.floor(Math.random() * chars.length)];
-            ctx.fillStyle = `hsl(${Math.floor(Math.random()*360)}, 80%, 60%)`;
-            ctx.font = fontSize + 'px monospace';
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (Math.random() > 0.975 || drops[i] * fontSize > height) {
-                drops[i] = 0;
-            }
-            drops[i]++;
-        }
-        requestAnimationFrame(draw);
+    // 设置初始高亮为中心
+    function setCenter() {
+        const rect = container.getBoundingClientRect();
+        const x = rect.width / 2;
+        const y = rect.height / 2;
+        container.style.setProperty('--xPos', `${x}px`);
+        container.style.setProperty('--yPos', `${y}px`);
     }
-    canvas = document.getElementById('code-bg');
-    ctx = canvas.getContext('2d');
-    resize();
-    window.addEventListener('resize', resize);
-    draw();
+    setCenter();
+    // 鼠标移动高亮跟随
+    container.addEventListener('mousemove', function(e) {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        container.style.setProperty('--xPos', `${x}px`);
+        container.style.setProperty('--yPos', `${y}px`);
+    });
+    container.addEventListener('mouseleave', setCenter);
+    window.addEventListener('resize', setCenter);
 })();
-</script>
+    </script>
 <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;color:#fff;text-shadow:0 2px 8px #000;font-size:2.2rem;">
     <div style="font-size:4rem;font-weight:bold;">404</div>
     <div style="margin-top:1rem;">未找到页面</div>
