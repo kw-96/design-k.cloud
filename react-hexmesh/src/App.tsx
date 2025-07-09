@@ -11,7 +11,7 @@ function App() {
           position:'absolute',top:0,left:0,width:'100vw',height:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',zIndex:1
         }}>
           <div style={{
-            background:'rgba(20,40,80,0.85)',
+            background:'#020202',
             borderRadius:20,
             boxShadow:'0 4px 32px 0 rgba(0,0,0,0.18)',
             padding:'48px 40px 32px 40px',
@@ -20,7 +20,7 @@ function App() {
             textAlign:'center',
             backdropFilter:'blur(8px)',
           }}>
-            <h2 style={{color:'#fff',fontWeight:700,fontSize:32,marginBottom:32,letterSpacing:2}}>敬请期待！</h2>
+            <h2 style={{color:'#fff',fontWeight:700,fontSize:32,marginBottom:32,letterSpacing:2}}>敬请期待</h2>
             <button
               style={{
                 marginTop:8,
